@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoneycombAddButton : MonoBehaviour
+public class HoneycombAddButton : Button
 {
     int x;
     int y;
@@ -11,6 +11,11 @@ public class HoneycombAddButton : MonoBehaviour
     {
         x = _x;
         y = _y;
+    }
+
+    public override void OnClick()
+    {
+        Add();
     }
 
     public void Add()

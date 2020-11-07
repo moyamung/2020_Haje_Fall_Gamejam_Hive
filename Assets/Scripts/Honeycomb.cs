@@ -11,7 +11,7 @@ public class Honeycomb : MonoBehaviour
     GameObject[,] honeycomb = new GameObject[7, 7];
     Vector3 xVector = new Vector3(1f, 0f, 0f);
     Vector3 yVector = new Vector3(-0.5f, Mathf.Sqrt(3) / 2, 0f);
-    float cellSize = 100f;
+    float cellSize = 1.1f;
 
     void Start()
     {
@@ -22,6 +22,20 @@ public class Honeycomb : MonoBehaviour
     void Update()
     {
         
+    }
+
+    struct Coords
+    {
+        public int x { get; set; }
+        public int y { get; set; }
+        public Coords(int _x,int _y)
+        {
+            x = _x;
+            y = _y;
+
+        }
+        public static Coords operator +(Coords a, Coords b)
+            => new Coords(a.x + b.x, a.y + b.y);
     }
 
     public void AddCell(int x, int y)
@@ -37,8 +51,8 @@ public class Honeycomb : MonoBehaviour
 
     void AddButtonMaking()
     {
-        List<(int, int)> list = Circumference();
-        foreach ((int x, int y) coord in list)
+        List<Coords> list = Circumference();
+        foreach (Coords coord in list)
         {
             if (honeycomb[coord.x + 3, coord.y + 3] == null)
             {
@@ -49,41 +63,36 @@ public class Honeycomb : MonoBehaviour
         }
     }
 
-    List<(int, int)> Circumference()
+    List<Coords> Circumference()
     {
-        Queue<(int x, int y)> q = new Queue<(int, int)>();
-        List<(int x, int y)> list = new List<(int, int)>();
+        Queue<Coords> q = new Queue<Coords>();
+        List<Coords> list = new List<Coords>();
         bool[,] visit = new bool[7, 7];
 
-        (int x, int y)[] dist = { (1, 0), (1, 1), (0, 1), (-1, 0), (-1, -1), (0, -1) };
+        Coords[] dist = { new Coords(1, 0), new Coords(1, 1), new Coords(0, 1), new Coords(-1, 0), new Coords(-1, -1), new Coords(0, -1) };
 
-        q.Enqueue((0, 0));
+        q.Enqueue(new Coords(0,0));
         while (q.Count > 0)
         { 
-            (int, int) coord = q.Dequeue();
+            Coords coord = q.Dequeue();
             for (int i = 0; i < 6; i++)
             {
-                (int x, int y) searchCoord = MyAdd(coord, dist[i]);
+                Coords searchCoord = coord + dist[i];
                 if (searchCoord.x < -3 || searchCoord.x > 3 || searchCoord.y < -3 || searchCoord.y > 3 || searchCoord.x - searchCoord.y > 3 || searchCoord.x - searchCoord.y < -3) continue;
                 if (visit[searchCoord.x + 3, searchCoord.y + 3] == true) continue;
                 visit[searchCoord.x + 3, searchCoord.y + 3] = true;
                 if (honeycomb[searchCoord.x + 3, searchCoord.y + 3] == null)
                 {
-                    list.Add((searchCoord.x, searchCoord.y));
+                    list.Add(searchCoord);
                 }
                 else if (honeycomb[searchCoord.x + 3, searchCoord.y + 3].GetComponent<HoneycombCell>() != null) 
                 {
-                    q.Enqueue((searchCoord.x, searchCoord.y));
+                    q.Enqueue(searchCoord);
                 }
             }
         }
-        Debug.Log(list.Count);
+        //Debug.Log(list.Count);
         return list;
-    }
-    
-    (int, int) MyAdd((int x, int y) a, (int x, int y) b)
-    {
-        return (a.x + b.x, a.y + b.y);
     }
 
     Vector3 SetCellPosition(int x,int y)
