@@ -83,7 +83,7 @@ public class PlayerInput : MonoBehaviour
             {
                 Vector3 mousePositon = Input.mousePosition;
                 mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
-                chosen.GetComponent<Bee>().Move(mousePositon-Camera.main.transform.position);
+                chosen.GetComponent<Bee>().MoveTo(mousePositon-Camera.main.transform.position);
             }
         }
     }

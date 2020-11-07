@@ -16,7 +16,7 @@ public class Bee : MonoBehaviour
         
     }
 
-    public virtual void Move(Vector3 arrival)
+    public virtual void MoveTo(Vector3 arrival)
     {
 
     }
