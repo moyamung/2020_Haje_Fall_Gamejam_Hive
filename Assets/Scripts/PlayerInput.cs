@@ -9,6 +9,7 @@ public class PlayerInput : MonoBehaviour
     float scrollSpeed = 5f;
     Vector3 MoveStart;
     Vector3 Move;
+    GameObject chosen;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class PlayerInput : MonoBehaviour
         Click();
         Zoom();
         Panning();
+        MoveCommand();
     }
 
     void Click()
@@ -37,7 +39,16 @@ public class PlayerInput : MonoBehaviour
                 {
                     //Debug.Log(hit.transform.name);
                     hit.transform.GetComponent<Button>().OnClick();
+                    chosen = null;
                 }
+                else if (hit.transform.CompareTag("Controllable"))
+                {
+                    //Debug.Log("asdf");
+                    chosen = hit.transform.gameObject;
+                }
+            } else
+            {
+                chosen = null;
             }
         }
     }
@@ -51,16 +62,29 @@ public class PlayerInput : MonoBehaviour
 
     void Panning()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(2))
         {
             MoveStart = Input.mousePosition;
             MoveStart = Camera.main.ScreenToWorldPoint(MoveStart);
         }
-        else if (Input.GetMouseButton(1))
+        else if (Input.GetMouseButton(2))
         {
             Move = Input.mousePosition;
             Move = Camera.main.ScreenToWorldPoint(Move);
             Camera.main.transform.position -= Move - MoveStart;
+        }
+    }
+
+    void MoveCommand()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (chosen != null)
+            {
+                Vector3 mousePositon = Input.mousePosition;
+                mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
+                chosen.GetComponent<Bee>().Move(mousePositon-Camera.main.transform.position);
+            }
         }
     }
 }
