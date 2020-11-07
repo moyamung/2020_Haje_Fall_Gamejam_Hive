@@ -5,6 +5,11 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    float scrollSpeed = 5f;
+    Vector3 MoveStart;
+    Vector3 Move;
+
     void Start()
     {
         
@@ -12,6 +17,13 @@ public class PlayerInput : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        Click();
+        Zoom();
+        Panning();
+    }
+
+    void Click()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -27,6 +39,28 @@ public class PlayerInput : MonoBehaviour
                     hit.transform.GetComponent<Button>().OnClick();
                 }
             }
+        }
+    }
+
+    void Zoom()
+    {
+        float wheelInput = Input.GetAxis("Mouse ScrollWheel");
+        //Camera.main.transform.Translate(new Vector3(0f, 0f, -wheelInput * scrollSpeed));
+        Camera.main.orthographicSize -= wheelInput * scrollSpeed;
+    }
+
+    void Panning()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            MoveStart = Input.mousePosition;
+            MoveStart = Camera.main.ScreenToWorldPoint(MoveStart);
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            Move = Input.mousePosition;
+            Move = Camera.main.ScreenToWorldPoint(Move);
+            Camera.main.transform.position -= Move - MoveStart;
         }
     }
 }
