@@ -155,5 +155,9 @@ public class PlayerInput : MonoBehaviour
         {
             if (selected.GetComponent<HoneycombCell>() != null) MakeLarva(selected.GetComponent<HoneycombCell>());
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (selected.GetComponent<WorkerBee>() != null) selected.GetComponent<WorkerBee>().ChangeState(WorkerBee.State.Deposit);
+        }
     }
 }

@@ -12,9 +12,13 @@ public class WorkerBee : Bee
     public float honey;
     public float maxHoney;
 
+    public enum State { Idle, Move, Deposit};
+    State state;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        state = State.Idle;
     }
 
     // Update is called once per frame
@@ -94,5 +98,27 @@ public class WorkerBee : Bee
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
         
+    }
+
+    public void ChangeState(State _state)
+    {
+        state = _state;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Flower"))
+        {
+            honey = maxHoney;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HoneycombCell") && state == State.Deposit && honey > 1f)
+        {
+            honey -= collision.GetComponent<HoneycombCell>().AddHoney(honey - 1f);
+            state = State.Idle;
+        }
     }
 }
