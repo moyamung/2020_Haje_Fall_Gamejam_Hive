@@ -9,30 +9,32 @@ public class HoneycombCell : MonoBehaviour
     public float honeySaved;
     public bool containLarva;
 
-    public SpriteRenderer Larva;
+    public SpriteRenderer larva;
     public Transform honeyMask;
 
     void Start()
     {
-        Larva = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        larva = transform.GetChild(0).GetComponent<SpriteRenderer>();
         honeyMask = transform.GetChild(1).GetChild(0);
+        LarvaVisualUpdate();
     }
 
     // Update is called once per frame
     void Update()
     {
         HoneyVisualUpdate();
-        LarvaVisualUpdate();
+        //LarvaVisualUpdate();
     }
 
     void LarvaVisualUpdate()
     {
-        Larva.enabled = containLarva;
+        larva.enabled = containLarva;
     }
 
     void HoneyVisualUpdate()
     {
-        honeyMask.localPosition = new Vector3(0f, (honeySaved / honeyMax - 1.0f) * 1.1f);
+        honeyMask.localScale = new Vector3(1f, honeySaved / honeyMax * 1.1f, 1f);
+        honeyMask.localPosition = new Vector3(0f, (honeySaved / honeyMax - 1.0f) * 0.55f);
     }
 
     public float AddHoney(float honey) // add honey, and return the amount of honey added. it can use for subtracting.
@@ -52,5 +54,20 @@ public class HoneycombCell : MonoBehaviour
         }
         honeySaved += honey;
         return honey;
+    }
+
+    public void AddLarva()
+    {
+        StartCoroutine("LarvaMaking");
+    }
+
+    IEnumerator LarvaMaking()
+    {
+        containLarva = true;
+        LarvaVisualUpdate();
+        yield return new WaitForSeconds(10f);
+        containLarva = false;
+        LarvaVisualUpdate();
+        GameManager.gameManager.AddBee();
     }
 }

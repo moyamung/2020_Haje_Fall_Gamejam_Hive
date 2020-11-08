@@ -10,6 +10,20 @@ public class GameManager : MonoBehaviour
 
     List<GameObject> Workers = new List<GameObject>();
 
+    public static GameManager gameManager;
+
+    void Awake()
+    {
+        if (gameManager == null)
+        {
+            gameManager = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     void Start()
     {
         

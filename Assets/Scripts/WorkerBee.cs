@@ -9,6 +9,9 @@ public class WorkerBee : Bee
     SpriteRenderer spriteRenderer;
     IEnumerator action;
 
+    public float honey;
+    public float maxHoney;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -75,6 +78,16 @@ public class WorkerBee : Bee
 
     IEnumerator Gather(Transform flower)
     {
-
+        Vector3 arrivalPoint = flower.position;
+        Vector3 direction = arrivalPoint - transform.position;
+        direction = direction.normalized * speed;
+        SpriteFlipping(direction);
+        while ((transform.position - arrivalPoint).magnitude > speed * Time.fixedDeltaTime)
+        {
+            transform.Translate(direction * Time.fixedDeltaTime);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
+        transform.position = arrivalPoint;
+        honey = maxHoney;
     }
 }

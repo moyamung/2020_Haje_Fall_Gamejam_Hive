@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Button
   - Controllable
+  - Flower
+  - HoneycombCell
   layers:
   - Default
   - TransparentFX

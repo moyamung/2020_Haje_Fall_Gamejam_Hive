@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
 
     void Start()
     {
-        
+        popUpMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -100,7 +100,7 @@ public class PlayerInput : MonoBehaviour
                 {
                     if (hit.transform.CompareTag("Flower") && chosen.GetComponent<WorkerBee>()!=null)
                     {
-                        chosen.GetComponent<WorkerBee>().Gather(hit.transform);
+                        chosen.GetComponent<WorkerBee>().GatherFrom(hit.transform);
                     }
                 }
 
