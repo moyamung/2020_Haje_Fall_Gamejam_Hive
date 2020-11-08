@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1094183724835227982}
   - component: {fileID: 7455296413334108710}
   - component: {fileID: 8776782130344745366}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HoneycombAdd
   m_TagString: Button
   m_Icon: {fileID: 0}

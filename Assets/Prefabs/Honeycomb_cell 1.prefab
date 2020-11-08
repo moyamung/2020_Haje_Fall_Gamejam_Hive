@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4508244945289712029}
   - component: {fileID: 8616861151085556565}
   - component: {fileID: 7128853384758366972}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Honeycomb_cell 1
   m_TagString: HoneycombCell
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592256723942902527}
   - component: {fileID: 5592256723942902524}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Larva
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592256723950482573}
   - component: {fileID: 5592256723950482562}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: honey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592256725577073890}
   - component: {fileID: 5592256725577073891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: New Sprite Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
