@@ -6,48 +6,42 @@ public class WorkerBee : Bee
 {
     // Start is called before the first frame update
     float speed = 5f;
-    Vector3 arrivalPoint;
-    bool isMoving;
-    SpriteRenderer renderer;
+    SpriteRenderer spriteRenderer;
+    IEnumerator action;
 
     void Start()
     {
-        isMoving = false;
-        renderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isMoving) Move();
+        
     }
 
-    void Move()
+    IEnumerator Move(Vector3 arrivalPoint)
     {
-        if ((transform.position - arrivalPoint).magnitude < speed * Time.deltaTime)
+        Vector3 direction = arrivalPoint - transform.position;
+        direction = direction.normalized * speed;
+        SpriteFlipping(direction);
+        while ((transform.position - arrivalPoint).magnitude > speed * Time.fixedDeltaTime)
         {
-            transform.position = arrivalPoint;
-            isMoving = false;
+            transform.Translate(direction * Time.fixedDeltaTime);
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-        else
-        {
-            Vector3 direction = arrivalPoint - transform.position;
-            direction = direction.normalized * speed;
-            transform.Translate(direction * Time.deltaTime);
-            SpriteFlipping(direction);
-            //SpriteDirection(direction);
-        }
+        transform.position = arrivalPoint;
     }
 
     void SpriteFlipping(Vector3 direction)
     {
         if (direction.x > 0)
         {
-            renderer.flipX = true;
+            spriteRenderer.flipX = true;
         }
         else
         {
-            renderer.flipX = false;
+            spriteRenderer.flipX = false;
         }
     }
 
@@ -55,20 +49,32 @@ public class WorkerBee : Bee
     {
         if (direction.x > 0)
         {
-            renderer.flipX = true;
-            renderer.
+            spriteRenderer.flipX = true;
             transform.rotation = Quaternion.AngleAxis(180 / Mathf.PI * Mathf.Atan2(direction.y, Mathf.Abs(direction.x)),Vector3.forward);
         }
         else
         {
-            renderer.flipX = false;
+            spriteRenderer.flipX = false;
             transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.y, Mathf.Abs(direction.x)), Vector3.forward);
         }
     }
 
     public override void MoveTo(Vector3 arrival)
     {
-        arrivalPoint = arrival;
-        isMoving = true;
+        if (action != null) StopCoroutine(action);
+        action = Move(arrival);
+        StartCoroutine(action);
+    }
+
+    public void GatherFrom(Transform flower)
+    {
+        if (action != null) StopCoroutine(action);
+        action = Gather(flower);
+        StartCoroutine(action);
+    }
+
+    IEnumerator Gather(Transform flower)
+    {
+
     }
 }

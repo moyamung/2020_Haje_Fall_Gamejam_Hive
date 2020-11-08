@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerInput : MonoBehaviour
     Vector3 MoveStart;
     Vector3 Move;
     GameObject chosen;
+
+    public GameObject popUpMenu;
 
     void Start()
     {
@@ -29,6 +32,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            popUpMenu.SetActive(false);
+
             Vector3 mousePositon = Input.mousePosition;
             mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
 
@@ -40,6 +45,12 @@ public class PlayerInput : MonoBehaviour
                     //Debug.Log(hit.transform.name);
                     hit.transform.GetComponent<Button>().OnClick();
                     chosen = null;
+                }
+                else if (hit.transform.CompareTag("HoneycombCell"))
+                {
+                    chosen = hit.transform.gameObject;
+                    PopUpMenu();
+                    
                 }
                 else if (hit.transform.CompareTag("Controllable"))
                 {
@@ -79,12 +90,37 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (chosen != null)
+            if (chosen.CompareTag("Controllable"))
             {
                 Vector3 mousePositon = Input.mousePosition;
                 mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
+
+                RaycastHit2D hit = Physics2D.Raycast(mousePositon, transform.forward, 100f);
+                if (hit)
+                {
+                    if (hit.transform.CompareTag("Flower") && chosen.GetComponent<WorkerBee>()!=null)
+                    {
+                        chosen.GetComponent<WorkerBee>().Gather(hit.transform);
+                    }
+                }
+
                 chosen.GetComponent<Bee>().MoveTo(mousePositon-Camera.main.transform.position);
             }
+        }
+    }
+
+    void PopUpMenu()
+    {
+        popUpMenu.SetActive(true);
+    }
+
+    public void MakeLarva()
+    {
+        HoneycombCell chosenCell = chosen.GetComponent<HoneycombCell>();
+        if (chosenCell == null) return;
+        if (!chosenCell.containLarva)
+        {
+            chosenCell.AddLarva();
         }
     }
 }
