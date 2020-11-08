@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class CallFuncButton : Button
 {
     // Start is called before the first frame update
+
+    public string script;
+    public string funcName;
 
     void Start()
     {
         
     }
 
-    //public GameObject script;
-
-    public virtual void OnClick()
-    {
-        //script.OnClick();
-    }
-
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public override void OnClick()
+    {
+        Debug.Log("onclick");
+        //GameObject.Find(script).SendMessage(funcName);
     }
 }

@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     float scrollSpeed = 5f;
     Vector3 MoveStart;
     Vector3 Move;
-    GameObject chosen;
+    public GameObject chosen;
 
     public GameObject popUpMenu;
 
@@ -40,9 +40,9 @@ public class PlayerInput : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(mousePositon, transform.forward, 100f);
             if (hit)
             {
+                Debug.Log(hit.transform.name);
                 if (hit.transform.CompareTag("Button"))
                 {
-                    //Debug.Log(hit.transform.name);
                     hit.transform.GetComponent<Button>().OnClick();
                     chosen = null;
                 }
@@ -112,6 +112,9 @@ public class PlayerInput : MonoBehaviour
     void PopUpMenu()
     {
         popUpMenu.SetActive(true);
+        Vector3 mousePositon = Input.mousePosition;
+        mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
+        popUpMenu.transform.position = mousePositon - Camera.main.transform.position;
     }
 
     public void MakeLarva()

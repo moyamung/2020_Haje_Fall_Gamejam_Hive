@@ -71,6 +71,7 @@ public class WorkerBee : Bee
 
     public void GatherFrom(Transform flower)
     {
+        Debug.Log("gathering///");
         if (action != null) StopCoroutine(action);
         action = Gather(flower);
         StartCoroutine(action);
@@ -85,9 +86,13 @@ public class WorkerBee : Bee
         while ((transform.position - arrivalPoint).magnitude > speed * Time.fixedDeltaTime)
         {
             transform.Translate(direction * Time.fixedDeltaTime);
+            if ((transform.position - arrivalPoint).magnitude < speed * Time.fixedDeltaTime)
+            {
+                transform.position = arrivalPoint;
+                honey = 10;
+            }
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-        transform.position = arrivalPoint;
-        honey = maxHoney;
+        
     }
 }

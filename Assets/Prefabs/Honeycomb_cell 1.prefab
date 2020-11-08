@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 489469755144139760}
   - component: {fileID: 4508244945289712029}
   - component: {fileID: 8616861151085556565}
+  - component: {fileID: 7128853384758366972}
   m_Layer: 0
   m_Name: Honeycomb_cell 1
   m_TagString: HoneycombCell
@@ -114,6 +115,45 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!60 &7128853384758366972
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2250199663971834998}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.28, y: 1.28}
+    newSize: {x: 1.28, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.53999996, y: 0.35}
+      - {x: 0.03, y: 0.64}
+      - {x: -0.03, y: 0.64}
+      - {x: -0.14, y: 0.58}
+      - {x: -0.47, y: 0.39}
+      - {x: -0.55, y: 0.34}
+      - {x: -0.55, y: -0.31}
+      - {x: -0.53999996, y: -0.32999998}
+      - {x: -0.14, y: -0.56}
+      - {x: -0.03, y: -0.62}
+      - {x: 0.04, y: -0.62}
+      - {x: 0.47, y: -0.37}
+      - {x: 0.55, y: -0.32}
+      - {x: 0.55, y: 0.32999998}
 --- !u!1 &5592256723942902526
 GameObject:
   m_ObjectHideFlags: 0
