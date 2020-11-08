@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     float scrollSpeed = 5f;
     Vector3 MoveStart;
     Vector3 Move;
-    public GameObject chosen;
+    public GameObject selected;
 
     public GameObject popUpMenu;
 
@@ -26,13 +26,14 @@ public class PlayerInput : MonoBehaviour
         Zoom();
         Panning();
         MoveCommand();
+        KeyboardInput();
     }
 
     void Click()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            popUpMenu.SetActive(false);
+            //popUpMenu.SetActive(false);
 
             Vector3 mousePositon = Input.mousePosition;
             mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
@@ -44,22 +45,23 @@ public class PlayerInput : MonoBehaviour
                 if (hit.transform.CompareTag("Button"))
                 {
                     hit.transform.GetComponent<Button>().OnClick();
-                    chosen = null;
+                    Deselect();
                 }
                 else if (hit.transform.CompareTag("HoneycombCell"))
                 {
-                    chosen = hit.transform.gameObject;
+                    Select(hit.transform.gameObject);
                     PopUpMenu();
                     
                 }
                 else if (hit.transform.CompareTag("Controllable"))
                 {
                     //Debug.Log("asdf");
-                    chosen = hit.transform.gameObject;
+                    Select(hit.transform.gameObject);
                 }
-            } else
+            }
+            else
             {
-                chosen = null;
+                Deselect();
             }
         }
     }
@@ -90,7 +92,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (chosen.CompareTag("Controllable"))
+            if (selected.CompareTag("Controllable"))
             {
                 Vector3 mousePositon = Input.mousePosition;
                 mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
@@ -98,13 +100,13 @@ public class PlayerInput : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(mousePositon, transform.forward, 100f);
                 if (hit)
                 {
-                    if (hit.transform.CompareTag("Flower") && chosen.GetComponent<WorkerBee>()!=null)
+                    if (hit.transform.CompareTag("Flower") && selected.GetComponent<WorkerBee>()!=null)
                     {
-                        chosen.GetComponent<WorkerBee>().GatherFrom(hit.transform);
+                        selected.GetComponent<WorkerBee>().GatherFrom(hit.transform);
                     }
                 }
 
-                chosen.GetComponent<Bee>().MoveTo(mousePositon-Camera.main.transform.position);
+                selected.GetComponent<Bee>().MoveTo(mousePositon-Camera.main.transform.position);
             }
         }
     }
@@ -112,18 +114,46 @@ public class PlayerInput : MonoBehaviour
     void PopUpMenu()
     {
         popUpMenu.SetActive(true);
-        Vector3 mousePositon = Input.mousePosition;
-        mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
-        popUpMenu.transform.position = mousePositon - Camera.main.transform.position;
+        //Vector3 mousePositon = Input.mousePosition;
+        //mousePositon = Camera.main.ScreenToWorldPoint(mousePositon);
+        //popUpMenu.transform.position = mousePositon - Camera.main.transform.position;
     }
 
-    public void MakeLarva()
+    public void MakeLarva(HoneycombCell cell)
     {
-        HoneycombCell chosenCell = chosen.GetComponent<HoneycombCell>();
+        HoneycombCell chosenCell = cell;
         if (chosenCell == null) return;
         if (!chosenCell.containLarva)
         {
             chosenCell.AddLarva();
+        }
+    }
+
+    void Select(GameObject _selected)
+    {
+        if (selected != null) Deselect();
+        selected = _selected;
+        if (selected.GetComponent<SpriteRenderer>() != null)
+        {
+            selected.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
+    void Deselect()
+    {
+        if (selected == null) return;
+        if (selected.GetComponent<SpriteRenderer>() != null)
+        {
+            selected.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        selected = null;
+    }
+
+    void KeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (selected.GetComponent<HoneycombCell>() != null) MakeLarva(selected.GetComponent<HoneycombCell>());
         }
     }
 }
