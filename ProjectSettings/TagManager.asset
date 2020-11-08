@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Button
-  - Controllable
   layers:
   - Default
   - TransparentFX
@@ -15,11 +14,11 @@ TagManager:
   - UI
   - 
   - 
-  - Terrain
   - 
-  - Enemy
   - 
-  - Friend
+  - 
+  - 
+  - 
   - 
   - 
   - 
